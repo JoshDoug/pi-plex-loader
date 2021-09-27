@@ -2,10 +2,12 @@ package com.jds.loaderapi.security;
 
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -17,14 +19,16 @@ import java.util.ArrayList;
 
 import static com.jds.loaderapi.security.SecurityConstants.*;
 
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+// TODO - figure out this filter ordering shit
+//public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
     private JwtParser jwtParser;
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtParser jwtParser) {
         // Okay so maybe the reason we extend BasicAuthenticationFilter is because it takes authenticationManager in it's constructor?
-//        super(authenticationManager);
+        super(authenticationManager);
 
         // But BasicAuthentication has nothing to do with JwtAuthentication, so I don't really want to use it...
         // Overview of BasicAuthentication: https://en.wikipedia.org/wiki/Basic_access_authentication
@@ -32,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // (whereas JWT convention uses Bearer instead of Basic
 
 //        Instead we can probably just wire it ourselves, is there any harm?
-        this.authenticationManager = authenticationManager;
+//        this.authenticationManager = authenticationManager;
         this.jwtParser = jwtParser;
     }
 

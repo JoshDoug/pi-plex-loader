@@ -1,0 +1,39 @@
+-- So the idea here is we want a RBAC type situation
+-- But we want to be able to use Hibernate with minimal janky stuff
+-- SO, the initial idea is to use a User table, with a many to many relationship to a Role table
+-- BUT, the Role PK is the ROLE name, that we would use in PreAuthorise etc, rather than a generated key
+-- I think this makes sense because the ROLE name shouldn't change, should be unique, etc
+
+-- CREATE TABLE user(
+-- username varchar_ignorecase(50) not null primary key,
+-- password varchar_ignorecase(50) not null,
+-- enabled boolean not null
+-- );
+--
+-- -- My hope here is to get this working as is, then add additional fields in
+-- CREATE TABLE authority(
+-- id varchar_ignorecase(50) not null primary key
+-- );
+--
+-- CREATE TABLE user_authority(
+-- username varchar_ignorecase(50) not null,
+-- authority varchar_ignorecase(50) not null,
+-- constraint fk_username foreign key(username) references users(username),
+-- constraint fk_authority foreign key(authority) references authorities(id),
+-- unique (username, authority)
+-- );
+
+
+-- CREATE TABLE USER (
+--   USER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+--   USERNAME VARCHAR(128) NOT NULL UNIQUE,
+--   PASSWORD VARCHAR(256) NOT NULL
+-- );
+--
+-- CREATE TABLE AUTH_USER_GROUP (
+--   AUTH_USER_GROUP_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+--   USERNAME VARCHAR(128) NOT NULL,
+--   AUTH_GROUP VARCHAR(128) NOT NULL,
+--   CONSTRAINT USER_AUTH_USER_GROUP_FK FOREIGN KEY(USERNAME) REFERENCES USER(USERNAME),
+--   UNIQUE (USERNAME, AUTH_GROUP)
+-- )
