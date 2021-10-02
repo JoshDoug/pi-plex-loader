@@ -1,0 +1,78 @@
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.boot.autoconfigure: DEBUG
+
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
+
+#spring:
+#  config:
+#    import: classpath:auth.properties
+
+---
+# In Memory Stuff
+
+spring:
+  config:
+    activate:
+      on-profile: test-h2 | local-h2
+  jpa:
+    hibernate:
+      ddl-auto: create
+  h2:
+    console:
+      path: /h2
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+
+in-memory-db:
+  custom-security-overrides: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local-h2
+in-memory-db:
+  populate-users-and-roles: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local-mysql | test-mysql
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: ci
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local-mysql | prod
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
